@@ -2,6 +2,7 @@
 //
 // Copyright (C) 2001 Jan Hubicka, Thomas A. K. Kjaer, Tim Newsome and
 //                    Kamil Toman.
+// JavaScript port copyright (C) 2010 Moriyoshi Koizumi <mozo@mozo.jp>.
 // 
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
