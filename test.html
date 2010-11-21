@@ -1,0 +1,21 @@
+<html>
+<head>
+  <script type="text/javascript" src="aalib.js"></script>
+</head>
+<body>
+<pre>
+<script type="text/javascript">
+  var aalib = new AALib({ getpixel: function(x, y) {
+      // return 255 / (1 + Math.log((1 + Math.sqrt(Math.pow(x - 80, 2) + Math.pow(y - 25, 2))))) | 0;
+      return Math.pow(x - 80, 2) + Math.pow(y - 25, 2) < 256 ? 48: 0;
+  }});
+  aalib.render(0, 0, 80, 25);
+  var lines = [];
+  for (var j = 0; j < aalib.height; j++) {
+    lines.push(aalib.textbuffer[j].join(""));
+  }
+  document.write(lines.join("\n"));
+</script>
+</pre>
+</body>
+</html>
