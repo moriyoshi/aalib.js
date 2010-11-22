@@ -20,7 +20,7 @@
 // 02110-1301 USA
 
 var AALib = function(params) {
-    this.font = params.font || AALib.fonts.font16;
+    this.font = params.font || AALib.fonts.courier;
     this.supported = params.supported || AALib.NORMAL_MASK | AALib.DIM_MASK | AALib.BOLD_MASK;
     this.width = params.width || 80;
     this.height = params.height || 25;
@@ -3040,9 +3040,9 @@ AALib.prototype.makeTable = function() {
             table[pos] = i;
             if (next[pos] == pos && last != pos) {
                 if (last != -1)
-                    next[last] = i, last = i;
+                    next[last] = pos, last = pos;
                 else
-                    last = first = i;
+                    last = first = pos;
             }
         }
     }
@@ -3105,9 +3105,9 @@ AALib.prototype.makeTable = function() {
                         table[pos] = c;
                         if (next[pos] == pos && last != pos) {
                             if (last != -1)
-                                next[last] = i, last = i;
+                                next[last] = pos, last = pos;
                             else
-                                last = first = i;
+                                last = first = pos;
                         }
                     }
                 }
@@ -3173,13 +3173,25 @@ AALib.prototype.render = function(x1, y1, x2, y2) {
             if (rv) {
                 var i = (state = ((state * 1103515245) + 12345) | 0);
                 ii[0] += (i) % rv - (rv >> 1);
+                if (ii[0] > 255)
+                    ii[0] = 255;
+                else if (ii[0] < 0)
+                    ii[0] = 0;
                 ii[1] += (i >> 8) % rv - (rv >> 1);
+                if (ii[1] > 255)
+                    ii[1] = 255;
+                else if (ii[1] < 0)
+                    ii[1] = 0;
                 ii[2] += (i >> 16) % rv - (rv >> 1);
+                if (ii[2] > 255)
+                    ii[2] = 255;
+                else if (ii[2] < 0)
+                    ii[2] = 0;
                 ii[3] += (i >> 24) % rv - (rv >> 2);
-                if ((ii[0] | ii[1] | ii[2] | ii[3]) & (~255)) {
-                    for (var i = 0; i < 4; i++)
-                        ii[i] = Math.max(Math.min(ii[i], 255), 0);
-                }
+                if (ii[3] > 255)
+                    ii[3] = 255;
+                else if (ii[3] < 0)
+                    ii[3] = 0;
             }
             switch (this.dither) {
             case AALib.ERRORDISTRIB:
@@ -3216,9 +3228,11 @@ AALib.prototype.render = function(x1, y1, x2, y2) {
                         val = 0;
                     val = this.filltable[val];
                 } else {
-                    if ((ii[0] | ii[1] | ii[2] | ii[3]) & (~255)) {
-                        for (var i = 0; i < 4; i++)
-                            ii[i] = Math.max(Math.min(ii[i], 255), 0);
+                    for (var i = 0; i < 4; i++) {
+                        if (ii[i] > 255)
+                            ii[i] = 255;
+                        else if (ii[i] < 0)
+                            ii[i] = 0;
                     }
                     esum = ii[0] + ii[1] + ii[2] + ii[3];
                     ii[0] >>= 4;

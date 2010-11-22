@@ -3,11 +3,11 @@
   <script type="text/javascript" src="aalib.js"></script>
 </head>
 <body>
-<pre>
+<pre stye="line-height: 0.9em">
 <script type="text/javascript">
   var aalib = new AALib({ getpixel: function(x, y) {
-      // return 255 / (1 + Math.log((1 + Math.sqrt(Math.pow(x - 80, 2) + Math.pow(y - 25, 2))))) | 0;
-      return Math.pow(x - 80, 2) + Math.pow(y - 25, 2) < 256 ? 48: 0;
+      //return Math.pow(x - 80, 2) + Math.pow(y - 25, 2) < 256 ? 48: 0;
+      return 255 / (1 + Math.log((1 + Math.sqrt(Math.pow(x - 80, 2) + Math.pow(y - 25, 2))))) | 0;
   }});
   aalib.render(0, 0, 80, 25);
   var lines = [];
